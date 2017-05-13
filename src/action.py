@@ -20,6 +20,8 @@ import subprocess
 
 import actionbase
 
+swears = 0
+
 # =============================================================================
 #
 # Hey, Makers!
@@ -118,6 +120,8 @@ class SpeakTime(object):
         return 'It is %s past %s.' % (MINS_TEXT[minute_rounded - 1], HRS_TEXT[hour])
 
 
+
+
 # Example: Run a shell command and say its output
 # ===============================================
 #
@@ -199,6 +203,27 @@ class RepeatAfterMe(object):
 # =========================================
 
 
+# Swear Jar
+# ==============================
+#
+# This example will record swears.
+
+class SwearJar(object):
+
+    """Says the current local time with TTS."""
+
+    def __init__(self, say):
+        self.say = say
+
+    def run(self, voice_command):
+        swear_str = self.create_str()
+        self.say(swear_str)
+
+    def create_str(self, swears):
+    	swears += 1
+    	return 'That\'s %s swears so far. Nice job!' % swears
+
+
 def make_actor(say):
     """Create an actor to carry out the user's commands."""
 
@@ -215,6 +240,8 @@ def make_actor(say):
 
     actor.add_keyword(_('repeat after me'),
                       RepeatAfterMe(say, _('repeat after me')))
+
+    actor.add_keyword(_('swear jar'), SwearJar(say))
 
     # =========================================
     # Makers! Add your own voice commands here.
